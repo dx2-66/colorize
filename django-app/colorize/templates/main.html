@@ -1,0 +1,52 @@
+<style>
+  p { display: table-row; width: 100%; }
+  img { max-width: 100%; height: auto; }
+  .container { display: table; margin-left: 25%; margin-right: 25%; table-layout: fixed; }
+  .cell {display: table-cell; border: 1px solid grey; width: 50%; }
+</style>
+
+{% load static %}
+{% block content %}  
+   
+          <form method="post" enctype="multipart/form-data" class="container">
+          <h2>Upload a sketch and an optional image with a reference palette:</h2>
+            {% csrf_token %}
+                <p>
+                <label for="src" class="cell">Sketch: </label>
+                <input type="file" id="src" name="source" accept="image/*" class="cell"/>
+                </p>
+                <label for="col" class="cell">(Optional): reference color image: </label>
+                <input type="file" id="col" name="colormap" accept="image/*" class="cell"/>
+                </p>
+                <button class="btn" type="submit">Submit</button>
+          </form>
+
+        <div class="container">
+        {% if source_url %}
+          <h2>Sketch</h2>
+          <p>
+          <div class="cell">
+          <img src="{{ source_url }}"/>
+          </div>
+          <div class="cell">
+          <img src="{{ target_url }}"/>
+          </div>
+          </p>
+          <p>
+          <div class="cell">
+            {% if colormap_url %}
+              <img src="{{ colormap_url }}"/>
+            {% else %}
+              No reference.
+            {% endif %}
+          </div>
+          <div class="cell">
+          <img src="{{ out_colormap_url }}"/>
+          </div>
+          </p>
+          {% else %}
+            <p>No files uploaded.</p>
+          {% endif %}
+        </div>
+    
+{% endblock %}
