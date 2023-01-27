@@ -31,6 +31,13 @@ Additionally, the model will be trained and tested on a stock task from the orig
 
 Download pretrained weights: [generator](https://pool.animeco.in/apps/static/MyGAN-gen-ann.pth), [discriminator](https://pool.animeco.in/apps/static/MyGAN-disc-ann.pth).
 
+**Commandline interface:**
+
+- compatible with any dataset akin to mentioned above (source and target stacked into a single image);
+- adjust the settings in the *config.py*;
+- *train.py* needs no additional arguments;
+- *run.py* accepts two commandline arguments: source file and an optional color reference file.
+
 **Additional django app info:**
 
 - app templates should be enabled;

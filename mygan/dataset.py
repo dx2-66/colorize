@@ -23,7 +23,7 @@ class SplitDataset(Dataset):
         '''
         return (path.name, colorgram.extract(pre_extraction_left_half(path), config.colormap_size))
     
-    def __init__(self, root, size=512):
+    def __init__(self, root, size=config.image_size):
         '''
         Accepts the dataset directory. Prepares a file list and colorgram list.
         Cologram extraction is a resource-heavy operation and utilizes multiprocessing.

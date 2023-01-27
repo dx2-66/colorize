@@ -6,6 +6,7 @@ num_epochs = 10
 colormap_size = 8
 train_dir = '/home/daiyousei/storage/datasets/cityscapes/cityscapes/train/'
 test_dir = '/home/daiyousei/storage/datasets/cityscapes/cityscapes/val/'
+image_size = 512
 
 accelerator = Accelerator()
 device = accelerator.device
