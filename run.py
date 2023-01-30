@@ -41,7 +41,7 @@ args = parser.parse_args()
 
 model = gan.build_model()
 
-load_checkpoint('MyGAN-gen-ann.pth', model.generator, model.gen_optim)
+load_checkpoint('MyGAN-gen.pth', model.generator, model.gen_optim)
 
 output = colorize(args.input, args.colorgram)
 
