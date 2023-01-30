@@ -22,6 +22,13 @@ pre_extraction_left_half = lambda filename: Image.fromarray(A.Compose(
     ])
     (image=np.array(Image.open(filename).convert("RGB")))["image"])
 
+pre_extraction_right_half = lambda filename: Image.fromarray(A.Compose(
+    [
+        A.SmallestMaxSize (max_size=256, interpolation=2),
+        A.Crop(x_max=512, y_max=256, x_min=256)
+    ])
+    (image=np.array(Image.open(filename).convert("RGB")))["image"])
+
 class PixelNorm(nn.Module):
     def __init__(self):
         super().__init__()

@@ -10,20 +10,23 @@ from multiprocessing import Pool
 
 
 from mygan import config, augmentation
-from mygan.util import pre_extraction_left_half
+from mygan.util import pre_extraction_left_half, pre_extraction_right_half
 
 class SplitDataset(Dataset):
     '''
     Sketch-colorized image pairs vertically stacked in a single file.
     '''
     @staticmethod
-    def process_dir(path):
+    def process_dir(path, target_on_right=False):
         '''
         Extracts the observation id and the colorgram.
         '''
-        return (path.name, colorgram.extract(pre_extraction_left_half(path), config.colormap_size))
+        if target_on_right:
+            return (path.name, colorgram.extract(pre_extraction_right_half(path), config.colormap_size))
+        else:    
+            return (path.name, colorgram.extract(pre_extraction_left_half(path), config.colormap_size))
     
-    def __init__(self, root, size=config.image_size):
+    def __init__(self, root, size=config.image_size, target_on_right=False):
         '''
         Accepts the dataset directory. Prepares a file list and colorgram list.
         Cologram extraction is a resource-heavy operation and utilizes multiprocessing.
@@ -32,12 +35,13 @@ class SplitDataset(Dataset):
         '''
         self.root = root
         self.size = size
+        self.target_on_right = target_on_right
         self.files = []
         # build a list of files:
         pool = Pool(config.num_workers)
         path1 = Path(root)
         top = [dir for dir in filter(Path.is_file, path1.iterdir())]
-        results = pool.map(SplitDataset.process_dir, top)
+        results = pool.map(SplitDataset.process_dir, top, self.target_on_right)
         if results:
             self.files.extend(results)
         
@@ -50,8 +54,12 @@ class SplitDataset(Dataset):
         image = np.array(Image.open(path))
         
         # Split:
-        target = image[:, :self.size, :]
-        source = image[:, self.size:, :]
+        if self.target_on_right:
+            source = image[:, :self.size, :]
+            target = image[:, self.size:, :]
+        else:
+            target = image[:, :self.size, :]
+            source = image[:, self.size:, :]
         
         # Augment:
         augmentations = augmentation.both_transform(image=source, image0=target)
