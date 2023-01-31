@@ -42,3 +42,7 @@ Download pretrained weights: [generator](https://pool.animeco.in/apps/static/MyG
 
 - app templates should be enabled;
 - running torch applications via Apache WSGI requires `WSGIApplicationGroup %{GLOBAL}`. CPU is fine, colorgram extraction takes longer than a generator run.
+
+**Jan 31st update:**
+
+- Added target on right support (e.g. edges2shoes). Pretrained weights for edges2shoes: [generator](https://pool.animeco.in/apps/static/MyGAN-gen.pth), [discriminator](https://pool.animeco.in/apps/static/MyGAN-disc.pth).
